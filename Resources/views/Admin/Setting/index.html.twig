@@ -1,0 +1,24 @@
+<div class="row" id="newsletter-settings">
+    <div class="span-none-padding-24">
+        <div class="harmonica">
+            <input type="radio" id="harmonica-newsletter-01" name="newsletter-list" checked="checked"/>
+            <div class="main-panel">
+                <label for="harmonica-newsletter-01"><i><img width="25"
+                                                             src="{{ asset('../img/icons/Freddie_OG.png') }}"></i>MailChimp</label>
+                <div class="show-harmonica">
+                    {{ form(mailchimpForm) }}
+                </div>
+            </div>
+
+            <input type="radio" id="harmonica-newsletter-02" name="newsletter-list"/>
+            <div class="main-panel">
+                <label for="harmonica-newsletter-02"><i><img width="25" src="{{ asset('../img/icons/Marapost.png') }}"></i>Maropost</label>
+                {{ form(maropostForm) }}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+

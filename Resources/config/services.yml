@@ -1,0 +1,80 @@
+parameters:
+
+services:
+
+  necktie.newsletter:
+    class: Necktie\NewsletterBundle\Service\NewsletterService
+    arguments:
+      - @event_dispatcher
+      - @session.flash_bag
+      - @doctrine.orm.entity_manager
+      - @session
+      - @logger
+      - @snc_redis.default
+
+
+  necktie.newsletter.form.list_rules:
+    class: Necktie\NewsletterBundle\Form\ListRulesType
+    arguments:
+      - @doctrine.orm.entity_manager
+    tags:
+      - {name: form.type, alias: list_rules}
+
+
+  necktie.newsletter.driver.mailchimp.connector:
+    class: Necktie\NewsletterBundle\Drivers\MailChimp\MailChimpConnector
+    arguments:
+      - @app.config
+      - @logger
+
+
+  necktie.newsletter.driver.maropost.connector:
+      class: Necktie\NewsletterBundle\Drivers\Maropost\MaropostConnector
+      arguments:
+        - @app.config
+        - @logger
+
+
+  necktie.newsletter.driver.mailchimp:
+    class: Necktie\NewsletterBundle\Drivers\MailChimp\MailChimp
+    arguments:
+      - @necktie.newsletter.driver.mailchimp.connector
+      - @logger
+    tags:
+       - {name: necktie.newsletter.driver}
+
+
+  necktie.newsletter.driver.maropost:
+     class: Necktie\NewsletterBundle\Drivers\Maropost\Maropost
+     arguments:
+        - @necktie.newsletter.driver.maropost.connector
+     tags:
+        - {name: necktie.newsletter.driver}
+
+
+  necktie.newsletter.mailchimp.settings_service:
+      class: Necktie\NewsletterBundle\Drivers\MailChimp\EventListener\SettingsService
+      arguments:
+        - @app.config
+      tags:
+        - { name: kernel.event_listener, event: kernel.request, method: registerSettings}
+
+
+  necktie.newsletter.mailchimp.widgets.form:
+      class: Necktie\NewsletterBundle\Drivers\MailChimp\Form\MailChimpSettingsType
+      tags:
+          - { name: form.type, alias: mailChimp_settings }
+
+
+  necktie.newsletter.mailchimp.widgets.form.subscribe:
+      class: Necktie\NewsletterBundle\Drivers\MailChimp\Form\SubscribeType
+      arguments:
+        - @necktie.newsletter
+      tags:
+          - { name: form.type, alias: mailchimp_subscribe }
+
+
+  necktie.newsletter.listener.setting:
+      class: Necktie\NewsletterBundle\EventListener\SettingListener
+      tags:
+          - { name: kernel.event_listener, event: necktie.admin.event.setting, method: addSetting }

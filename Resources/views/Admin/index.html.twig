@@ -1,0 +1,60 @@
+{% extends "::Admin/layout.html.twig" %}
+
+{% block pageTitle %}
+    Newsletters
+{% endblock %}
+
+{% block pageIcon %}
+    <i class="trinity trinity-mail"></i>
+{% endblock %}
+
+
+{% block pageBody %}
+
+    <div class="box">
+        <header class="header">
+            Newsletters lists
+        </header>
+
+        <div class="box-table-body">
+
+            <table class="grid">
+                <thead>
+                <tr>
+                    <th style="width: 10%">
+                        Service
+                    </th>
+                    <th>
+                        List name
+                    </th>
+                    <th style="width: 30%">
+                        Action
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for service, lists in newsletterList %}
+                    {% for index, value in lists %}
+                        <tr>
+                            <td>{{ service }}</td>
+                            <td><strong>{{ value }}</strong></td>
+
+                            <td>
+                                <a href="{{ path("edit_list", { 'listId' : index, 'service' : service, 'type' : 'subscribe'}) }}">Subscribe
+                                    filter</a>
+                                <span class="margin-left-30"></span>
+                                <a href="{{ path("edit_list", { 'listId' : index, 'service' : service, 'type' : 'unsubscribe'}) }}">Unsubscribe
+                                    filter</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+{% endblock %}
+

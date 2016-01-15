@@ -1,0 +1,33 @@
+{% extends "::Admin/layout.html.twig" %}
+
+
+{% block pageTitle %}
+    Filter list - {% if listId %} Edit {% else %} New {% endif %}
+{% endblock %}
+
+
+{% block pageIcon %}
+    <i class="tiecons tiecons-share"></i>
+{% endblock %}
+
+
+{% block pageBody %}
+
+    <div class="box">
+
+        <header class="header">
+            Filter
+        </header>
+
+        <div class="box-form-body">
+            <div id="filter-list-rules">
+                <div class="edit-form">
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
